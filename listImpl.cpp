@@ -13,6 +13,7 @@ int main(void) {
     deleteFirst(nlist);
     printList(nlist);
     insertList(nlist, "Insertion");
+    printList(nlist);
 
     return 0;
 }

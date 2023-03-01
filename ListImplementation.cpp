@@ -21,8 +21,9 @@ void insertList(List& ls, string str) {
     Node* temp = ls.first;
     if (temp == NULL) {
         Node* tmp = new Node(str, NULL);
-        temp = tmp;
-        delete tmp;
+        //temp = tmp;
+        delete temp;
+        ls.first = tmp;
         return;
     }
     while (temp->next != NULL) {
