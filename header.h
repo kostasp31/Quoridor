@@ -16,8 +16,8 @@ struct Node {
 
 struct List {
     Node* first = NULL;
-    /*List(Node& nd) {
-        first = &nd;
+    /*List() {
+        first = NULL;
     }*/
     List(std::string& element) {
         first = new Node(element, NULL);
