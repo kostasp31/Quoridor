@@ -2,6 +2,7 @@
 #include <string>
 #include <set>
 #include <cstdlib>
+#include <sstream>
 
 using namespace std;
 
@@ -44,14 +45,46 @@ void exists(const set<string>& commands, const string& com) {
         cout << "= false\n\n";
 }
 
+void printName(void) {
+    cout << "= IP Quoridor renovated be KostasP\n\n";
+}
+
 int main(void) {
     string comm;
+    string word, word1, word2, word3, word4;
     set<string> commands;
     setCommands(commands);
 
     cin >> comm;
-    exists(commands, comm);
 
+    while (comm != "quit") {
+        istringstream iss(comm);
+        int i=0;
+        while (getline(iss, word, ' ')) {
+            switch (i) {
+            case 0:
+                word1 = word;
+                i++;
+                break;
+            case 1:
+                word2 = word;
+                i++;
+                break;
+            case 2:
+                word3 = word;
+                i++;                
+                break;
+            case 3:
+                word4 = word;
+                i++;
+                break;
+            }
+        }
+        cout << word1 << endl << word2 << endl << word3 << endl << word4 << endl;
+        cin >> comm;
+    }
+    cout << "=\n\n";
+ 
 
     return 0;
 }
