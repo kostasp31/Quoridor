@@ -2,7 +2,9 @@
 #include <string>
 #include <set>
 #include <cstdlib>
-#include <sstream>
+
+#include <bits/stdc++.h>
+
 
 using namespace std;
 
@@ -26,7 +28,7 @@ void setCommands(set<string>& st) {
     st.insert("walls");
     st.insert("playmove");
     st.insert("genmove");
-    st.insert("playwaall");
+    st.insert("playwall");
     st.insert("undo");
     st.insert("winner");
     st.insert("showboard");
@@ -37,11 +39,15 @@ void printCommands(const set<string>& commands) {
         std::cout << str << '\n';
 }
 
-void exists(const set<string>& commands, const string& com) {
+bool exists(const set<string>& commands, const string& com) {
     const bool inSet = commands.find(com) != commands.end();
-    if (inSet)
+    return inSet;
+}
+
+void check_com(const set<string>& commands, const string& searching_for) {
+    if (exists(commands, searching_for))
         cout << "= true\n\n";
-    else
+    else    
         cout << "= false\n\n";
 }
 
@@ -49,42 +55,48 @@ void printName(void) {
     cout << "= IP Quoridor renovated be KostasP\n\n";
 }
 
+void getTokens(const string& initial_comm, string& w1, string& w2, string& w3, string& w4) {
+    stringstream ss(initial_comm);  
+    string word;
+    int i=0;
+    while (ss >> word) { // Extract word from the stream.
+        switch (i) {
+        case 0:
+            w1 = word;
+            i++;
+            break;
+        case 1:
+            w2 =word;
+            i++;
+            break;
+        case 2:
+            w3 = word;
+            i++;
+            break;
+        case 3:
+            w4 = word;
+            i++;
+            break;
+        }
+    }
+}
+
 int main(void) {
     string comm;
-    string word, word1, word2, word3, word4;
+    string word1, word2, word3, word4;
     set<string> commands;
     setCommands(commands);
 
-    cin >> comm;
+    do {
+        getline(cin, comm);
+        getTokens(comm, word1, word2, word3, word4);
 
-    while (comm != "quit") {
-        istringstream iss(comm);
-        int i=0;
-        while (getline(iss, word, ' ')) {
-            switch (i) {
-            case 0:
-                word1 = word;
-                i++;
-                break;
-            case 1:
-                word2 = word;
-                i++;
-                break;
-            case 2:
-                word3 = word;
-                i++;                
-                break;
-            case 3:
-                word4 = word;
-                i++;
-                break;
-            }
-        }
-        cout << word1 << endl << word2 << endl << word3 << endl << word4 << endl;
-        cin >> comm;
-    }
+        if (!exists(commands, word1)) continue;
+        if (word1 == "name") printName();
+        if (word1 == "list_commands") printCommands(commands);
+        if (word1 == "known_command") check_com(commands, word2);
+    } while (comm != "quit");
+
     cout << "=\n\n";
- 
-
     return 0;
 }
