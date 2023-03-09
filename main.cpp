@@ -9,13 +9,27 @@
 using namespace std;
 
 class board {
-    char** table = NULL;
-
-};
-
-class game {
-    //board brd = new board();
-
+    private:
+        char** table = NULL;
+        bool initiallized = false;
+        int dim=0;
+    public:    
+        bool isInit(void)const {return initiallized;}
+        void setDim(int dimension) {dim = dimension;}
+        void initallizeTable(void) {
+            if (initiallized == true) {
+                for(int i=0; i<dim; i++)
+                    delete[] table[i];
+                delete[] table;
+                this->table = NULL;
+                initiallized = false;
+            }
+            table = new char*[dim];
+            for (int i=0; i<dim; i++) {
+                table[i] = new char[dim];
+            }
+            initiallized = true;
+        }
 };
 
 void setCommands(set<string>& st) {
@@ -35,8 +49,10 @@ void setCommands(set<string>& st) {
 }
 
 void printCommands(const set<string>& commands) {
+    cout << "=\n";
     for (string const& str : commands)
-        std::cout << str << '\n';
+        cout << str << '\n';
+    cout << "\n";
 }
 
 bool exists(const set<string>& commands, const string& com) {
