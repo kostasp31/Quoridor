@@ -12,23 +12,62 @@ class board {
     private:
         char** table = NULL;
         bool initiallized = false;
-        int dim=0;
+        int dim=0, rows=0, columns=0;
     public:    
         bool isInit(void)const {return initiallized;}
-        void setDim(int dimension) {dim = dimension;}
-        void initallizeTable(void) {
+        void setDim(int dimension) {
+            dim = dimension;
+            columns= (4*dim)+1;
+            rows = (2*dim)+1;
+        }
+        void allocateTable(void) {
             if (initiallized == true) {
-                for(int i=0; i<dim; i++)
+                for(int i=0; i<rows; i++)
                     delete[] table[i];
                 delete[] table;
                 this->table = NULL;
                 initiallized = false;
             }
-            table = new char*[dim];
-            for (int i=0; i<dim; i++) {
-                table[i] = new char[dim];
+            table = new char*[rows];
+            for (int i=0; i<rows; i++) {
+                table[i] = new char[columns];
             }
             initiallized = true;
+        }
+        void delTable(void) {
+            for(int i=0; i<rows; i++)
+                delete[] table[i];
+            delete[] table;
+        }
+
+        void initTable(void) {
+            for (int i=0; i<rows; i++) {
+                for (int j=0; j<columns; j++) {
+                    if ((i%2==0) || (i==0)) {
+                        if ((j%4 == 0) || (j==0)) {
+                            table[i][j] = '+';	/*Put "+" in the sections of the cells*/
+                        }
+                        else {
+                            table[i][j] = '-';	/*Put '-' in the up and down of cells*/
+                        }
+                    }
+                    else {
+                        if ((j%4 == 0) || (j==0)) {
+                            table[i][j] = '|';	/*Put '|' in the left and right of cells*/
+                        }
+                        else {
+                            table[i][j] = ' ';	/*The center of the cells is empty*/
+                        }
+                    }
+                }
+            }   
+        }
+        void printTable(void)const {
+            for (int i=0; i<rows; i++) {
+                for (int j=0; j<columns; j++)
+                    cout << table[i][j];
+                cout << endl;
+            }
         }
 };
 
@@ -97,11 +136,20 @@ void getTokens(const string& initial_comm, string& w1, string& w2, string& w3, s
     }
 }
 
+void setBoard(string& sizeS, board& bd) {
+    int dim = stoi(sizeS);
+    bd.setDim(dim);
+    bd.allocateTable();
+    bd.initTable();
+}
+
 int main(void) {
     string comm;
     string word1, word2, word3, word4;
     set<string> commands;
     setCommands(commands);
+
+    board brd;
 
     do {
         getline(cin, comm);
@@ -111,8 +159,11 @@ int main(void) {
         if (word1 == "name") printName();
         if (word1 == "list_commands") printCommands(commands);
         if (word1 == "known_command") check_com(commands, word2);
+        if (word1 == "boardsize") setBoard(word2, brd);
+        if (word1 == "showboard") brd.printTable();
     } while (comm != "quit");
 
+    brd.delTable();
     cout << "=\n\n";
     return 0;
 }
