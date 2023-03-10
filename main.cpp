@@ -1,8 +1,6 @@
 #include <iostream>
 #include <string>
 #include <set>
-#include <cstdlib>
-
 #include <bits/stdc++.h>
 
 
@@ -56,12 +54,23 @@ class board {
                             table[i][j] = '|';	/*Put '|' in the left and right of cells*/
                         }
                         else {
-                            table[i][j] = ' ';	/*The center of the cells is empty*/
+                            table[i][j] = 'a';	/*The center of the cells is empty*/
                         }
                     }
                 }
             }   
         }
+
+        void clearB(void) {
+            for (int i=0; i<rows; i++) {
+                for (int j=0; j<columns; j++) {
+                    if (i%2!=0 && j%4!=0) {
+                            table[i][j] = ' ';
+                    }
+                }
+            }   
+        }
+
         void printTable(void)const {
             for (int i=0; i<rows; i++) {
                 for (int j=0; j<columns; j++)
@@ -77,7 +86,7 @@ void setCommands(set<string>& st) {
     st.insert("list_commands");
     st.insert("quit");
     st.insert("boardsize");
-    st.insert("clearboard");
+    st.insert("clear_board");
     st.insert("walls");
     st.insert("playmove");
     st.insert("genmove");
@@ -110,6 +119,13 @@ void printName(void) {
     cout << "= IP Quoridor renovated be KostasP\n\n";
 }
 
+void clrBoard(board brd) {
+    brd.clearB();
+    //Should also set pawns to starting positions and 
+    //Set number of walls as arbitrary
+    cout << "=\n\n";
+}
+
 void getTokens(const string& initial_comm, string& w1, string& w2, string& w3, string& w4) {
     stringstream ss(initial_comm);  
     string word;
@@ -138,9 +154,14 @@ void getTokens(const string& initial_comm, string& w1, string& w2, string& w3, s
 
 void setBoard(string& sizeS, board& bd) {
     int dim = stoi(sizeS);
+    if (dim%2==0 || dim <5 || dim > 21) {
+        cout << "? Unacceptable size\n\n";
+        return;
+    }
     bd.setDim(dim);
     bd.allocateTable();
     bd.initTable();
+    cout << "=\n\n";
 }
 
 int main(void) {
@@ -150,7 +171,6 @@ int main(void) {
     setCommands(commands);
 
     board brd;
-
     do {
         getline(cin, comm);
         getTokens(comm, word1, word2, word3, word4);
@@ -161,6 +181,7 @@ int main(void) {
         if (word1 == "known_command") check_com(commands, word2);
         if (word1 == "boardsize") setBoard(word2, brd);
         if (word1 == "showboard") brd.printTable();
+        if (word1 == "clear_board") clrBoard(brd);
     } while (comm != "quit");
 
     brd.delTable();
