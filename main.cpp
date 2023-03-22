@@ -5,6 +5,18 @@
 
 
 using namespace std;
+enum color {W, B};
+
+class pawn {
+    public:
+        int x, y;
+        color clr;
+        pawn(int xi, int yi, color c) {
+            this->x = xi;
+            this->y = yi;
+            this->clr = c;
+        }
+};
 
 class board {
     private:
@@ -54,7 +66,7 @@ class board {
                             table[i][j] = '|';	/*Put '|' in the left and right of cells*/
                         }
                         else {
-                            table[i][j] = 'a';	/*The center of the cells is empty*/
+                            table[i][j] = ' ';	/*The center of the cells is empty*/
                         }
                     }
                 }
@@ -69,6 +81,15 @@ class board {
                     }
                 }
             }   
+        }
+
+        int getDim(void)const {
+            return this->dim;
+        }
+
+        void setChar(int x, int y, char ch) {
+            this->table[x][y] = ch; //Να δίνω απλά τις συντταγμένες του κελιού που θέλω και να μεταφράζονται 
+            return;
         }
 
         void printTable(void)const {
@@ -118,9 +139,17 @@ void check_com(const set<string>& commands, const string& searching_for) {
 void printName(void) {
     cout << "= IP Quoridor renovated be KostasP\n\n";
 }
-
+//////////////////////////////
+void test(board& bd) {
+    int D = bd.getDim();
+    int x,y;
+    bd.setChar(1, (y/2), 'W');
+    bd.setChar((2*D)-1, (y/2), 'B');
+}
+////////////////////////////////
 void clrBoard(board brd) {
     brd.clearB();
+    test(brd);
     //Should also set pawns to starting positions and 
     //Set number of walls as arbitrary
     cout << "=\n\n";
@@ -163,6 +192,7 @@ void setBoard(string& sizeS, board& bd) {
     bd.initTable();
     cout << "=\n\n";
 }
+
 
 int main(void) {
     string comm;
