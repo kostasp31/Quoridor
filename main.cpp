@@ -16,6 +16,10 @@ class pawn {
             this->y = yi;
             this->clr = c;
         }
+        void setCoords(int xi, int yi) {
+            this->x = xi;
+            this->y = yi;
+        }
 };
 
 class board {
@@ -23,6 +27,7 @@ class board {
         char** table = NULL;
         bool initiallized = false;
         int dim=0, rows=0, columns=0;
+        int Bwalls, Wwalls;
     public:    
         bool isInit(void)const {return initiallized;}
         void setDim(int dimension) {
@@ -71,6 +76,8 @@ class board {
                     }
                 }
             }   
+            Bwalls = -1;
+            Wwalls = -1;
         }
 
         void clearB(void) {
@@ -87,8 +94,11 @@ class board {
             return this->dim;
         }
 
-        void setChar(int x, int y, char ch) {
-            this->table[x][y] = ch; //Να δίνω απλά τις συντταγμένες του κελιού που θέλω και να μεταφράζονται 
+        void setChar(int xi, int yi, char ch) {
+            int row, col;
+            row = (xi*2)+1;
+            col = (yi*4)+2;
+            this->table[row][col] = ch;
             return;
         }
 
@@ -98,6 +108,19 @@ class board {
                     cout << table[i][j];
                 cout << endl;
             }
+        }
+
+        void setWalls(int n, color clc) {
+            if (clc == W)
+                Wwalls = n;
+            if (clc == B)
+                Bwalls = n;
+        }
+        int getWalls(color clc)const {
+            if (clc == W)
+                return this->Wwalls;
+            if (clc == B)
+                return this->Bwalls;
         }
 };
 
@@ -139,19 +162,12 @@ void check_com(const set<string>& commands, const string& searching_for) {
 void printName(void) {
     cout << "= IP Quoridor renovated be KostasP\n\n";
 }
-//////////////////////////////
-void test(board& bd) {
-    int D = bd.getDim();
-    int x,y;
-    bd.setChar(1, (y/2), 'W');
-    bd.setChar((2*D)-1, (y/2), 'B');
-}
-////////////////////////////////
-void clrBoard(board brd) {
+
+void clrBoard(board brd, pawn& pw, pawn& pb) {
     brd.clearB();
-    test(brd);
-    //Should also set pawns to starting positions and 
-    //Set number of walls as arbitrary
+    int D = brd.getDim();
+    brd.setChar(0, D/2, 'W');
+    brd.setChar(D-1, D/2, 'B');
     cout << "=\n\n";
 }
 
@@ -193,6 +209,12 @@ void setBoard(string& sizeS, board& bd) {
     cout << "=\n\n";
 }
 
+void setWalls(board& bd, string& nof) {
+    int numberOfWalls = stoi(nof);
+    bd.setWalls(numberOfWalls, W);
+    bd.setWalls(numberOfWalls, B);
+    cout << "=\n\n";
+}
 
 int main(void) {
     string comm;
@@ -201,6 +223,7 @@ int main(void) {
     setCommands(commands);
 
     board brd;
+    pawn White(-1, -1, W), Black(-1, -1, B);
     do {
         getline(cin, comm);
         getTokens(comm, word1, word2, word3, word4);
@@ -211,7 +234,8 @@ int main(void) {
         if (word1 == "known_command") check_com(commands, word2);
         if (word1 == "boardsize") setBoard(word2, brd);
         if (word1 == "showboard") brd.printTable();
-        if (word1 == "clear_board") clrBoard(brd);
+        if (word1 == "clear_board") clrBoard(brd, White, Black);
+        if (word1 == "walls") setWalls(brd, word2);
     } while (comm != "quit");
 
     brd.delTable();
