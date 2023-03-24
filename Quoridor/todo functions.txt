@@ -1,0 +1,36 @@
+    playmove
+    arguments 	where
+      	        move where - Color and vertex of the move
+    effects 	The player of the requested color is played at the requested vertex. 
+    output 	none
+    fails 	syntax error, illegal move. In the latter case, fails with the error message "illegal move".
+    comments 	Consecutive moves of the same color are not considered illegal from the protocol point of view.
+    
+
+    playwall
+    arguments   placement
+      	        wall placement  - Color, vertex and orientation of the wall
+    effects 	A wall place at the requested vertex and orientation. Decrease number of wall for that player by one.
+    output 	none
+    fails 	syntax error, illegal placement. In the latter case, fails with the error message "illegal move".
+    comments 	Consecutive moves of the same color are not considered illegal from the protocol point of view.
+    
+
+    genmove
+    arguments 	player
+      	        color player - Color for which to generate a move.
+    effects 	The engine makes a move or wall placement for the requested color.
+    output 	vertex orientation
+      	        vertex||string  - Vertex where the move was played or where the wall was placed.
+    fails 	never
+    comments 	If orientation returned a wall placed, otherwise it's a move.
+    
+
+    undo
+    arguments 	times (optional)
+                int times - how many times to undo
+    effects 	The game goes 'times' moves back.
+    output 	none
+    fails 	If times is greater than moves played or no moves are played. Fails with the error message "cannot undo".
+    comments 	
+    
