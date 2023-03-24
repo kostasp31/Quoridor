@@ -1,0 +1,110 @@
+#include <set>
+#include <string>
+#include <iostream>
+#include <bits/stdc++.h>
+#include "header.h"
+
+using namespace std;
+
+void setCommands(set<string>& st) {
+    st.insert("name");
+    st.insert("known_command");
+    st.insert("list_commands");
+    st.insert("quit");
+    st.insert("boardsize");
+    st.insert("clear_board");
+    st.insert("walls");
+    st.insert("playmove");
+    st.insert("genmove");
+    st.insert("playwall");
+    st.insert("undo");
+    st.insert("winner");
+    st.insert("showboard");
+}
+
+void printCommands(const set<string>& commands) {
+    cout << "=\n";
+    for (string const& str : commands)
+        cout << str << '\n';
+    cout << "\n";
+}
+
+bool exists(const set<string>& commands, const string& com) {
+    const bool inSet = commands.find(com) != commands.end();
+    return inSet;
+}
+
+void check_com(const set<string>& commands, const string& searching_for) {
+    if (exists(commands, searching_for))
+        cout << "= true\n\n";
+    else    
+        cout << "= false\n\n";
+}
+
+void printName(void) {
+    cout << "= IP Quoridor renovated be KostasP\n\n";
+}
+
+void clrBoard(board brd, pawn& pw, pawn& pb) {
+    brd.clearB();
+    int D = brd.getDim();
+    brd.setChar(0, D/2, 'W');
+    brd.setChar(D-1, D/2, 'B');
+    pb.setCoords(D-1, D/2);
+    pw.setCoords(0, D/2);
+    cout << "=\n\n";
+}
+
+void getTokens(const string& initial_comm, string& w1, string& w2, string& w3, string& w4) {
+    stringstream ss(initial_comm);  
+    string word;
+    int i=0;
+    while (ss >> word) { // Extract word from the stream.
+        switch (i) {
+        case 0:
+            w1 = word;
+            i++;
+            break;
+        case 1:
+            w2 =word;
+            i++;
+            break;
+        case 2:
+            w3 = word;
+            i++;
+            break;
+        case 3:
+            w4 = word;
+            i++;
+            break;
+        }
+    }
+}
+
+void setBoard(string& sizeS, board& bd) {
+    int dim = stoi(sizeS);
+    if (dim%2==0 || dim <5 || dim > 21) {
+        cout << "? Unacceptable size\n\n";
+        return;
+    }
+    bd.setDim(dim);
+    bd.allocateTable();
+    bd.initTable();
+    cout << "=\n\n";
+}
+
+void setWalls(board& bd, string& nof) {
+    int numberOfWalls = stoi(nof);
+    bd.setWalls(numberOfWalls, W);
+    bd.setWalls(numberOfWalls, B);
+    cout << "=\n\n";
+}
+
+void checkWinner(pawn& p1, pawn& p2, int dim) {
+    if (p1.x == dim-1)
+        cout << "= true White\n\n";
+    else if (p2.x == 0)
+        cout << "= true Black\n\n";   
+    else    
+        cout << "= false\n\n";    
+}
