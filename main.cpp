@@ -168,6 +168,8 @@ void clrBoard(board brd, pawn& pw, pawn& pb) {
     int D = brd.getDim();
     brd.setChar(0, D/2, 'W');
     brd.setChar(D-1, D/2, 'B');
+    pb.setCoords(D-1, D/2);
+    pw.setCoords(0, D/2);
     cout << "=\n\n";
 }
 
@@ -216,6 +218,15 @@ void setWalls(board& bd, string& nof) {
     cout << "=\n\n";
 }
 
+void checkWinner(pawn& p1, pawn& p2, int dim) {
+    if (p1.x == dim-1)
+        cout << "= true White\n\n";
+    else if (p2.x == 0)
+        cout << "= true Black\n\n";   
+    else    
+        cout << "= false\n\n";    
+}
+
 int main(void) {
     string comm;
     string word1, word2, word3, word4;
@@ -236,6 +247,11 @@ int main(void) {
         if (word1 == "showboard") brd.printTable();
         if (word1 == "clear_board") clrBoard(brd, White, Black);
         if (word1 == "walls") setWalls(brd, word2);
+        if (word1 == "winner") checkWinner(White, Black, brd.getDim());
+        if (word1 == "playmove") continue;
+        if (word1 == "playwall") continue;
+        if (word1 == "genmove") continue;
+        if (word1 == "undo") continue;
     } while (comm != "quit");
 
     brd.delTable();
