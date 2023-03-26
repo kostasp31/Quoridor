@@ -132,4 +132,6 @@ void setBoard(string& sizeS, board& bd);
 void setWalls(board& bd, string& nof);
 void checkWinner(pawn& p1, pawn& p2, int dim);
 
+void translateMove(string& mv);
+
 

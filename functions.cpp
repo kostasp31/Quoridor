@@ -108,3 +108,22 @@ void checkWinner(pawn& p1, pawn& p2, int dim) {
     else    
         cout << "= false\n\n";    
 }
+
+void translateMove(string& mv) {
+    string x,y;
+    x = mv.substr(0,1);
+    y = mv.substr(1,2);
+
+	char arr[mv.length() + 1]; 
+	strcpy(arr, mv.c_str());
+    char chX = arr[0];
+    char chY = arr[1];
+    int xi, yi;
+    if (chX >= 65 && chX <= 90)
+        xi = chX - 65;
+    else    
+        xi = chX - 97;
+    yi = chY - 49;
+
+    cout << "xi is: " << xi << " and yi is: " << yi << endl;
+}
