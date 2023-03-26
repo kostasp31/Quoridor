@@ -99,9 +99,27 @@ class board {
         }
 
         void printTable(void)const {
+            char ch = 'A';
+            int no = 1;
+            cout << "  ";
+            for (int k=0; k<dim; k++) {
+                cout << "   " << no;
+                no++;
+            }
+            cout << endl;
             for (int i=0; i<rows; i++) {
+                if (i%2==0)
+                    cout << "   ";
+                else {
+                    cout << " " << ch << " ";
+                    ch++;
+                }
                 for (int j=0; j<columns; j++)
                     cout << table[i][j];
+                if (i==3)
+                    cout << "   White Walls: " << Wwalls;
+                if (i==5)
+                    cout << "   Black Walls: " << Bwalls;
                 cout << endl;
             }
         }
@@ -131,7 +149,6 @@ void getTokens(const string& initial_comm, string& w1, string& w2, string& w3, s
 void setBoard(string& sizeS, board& bd);
 void setWalls(board& bd, string& nof);
 void checkWinner(pawn& p1, pawn& p2, int dim);
-
 void translateMove(string& mv);
 
-
+void playMove(string& who, board& bd, string& mv, pawn& wt, pawn& bk);

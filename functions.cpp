@@ -109,7 +109,7 @@ void checkWinner(pawn& p1, pawn& p2, int dim) {
         cout << "= false\n\n";    
 }
 
-void translateMove(string& mv) {
+void translateMove(string& mv, int& X, int& Y) {
     string x,y;
     x = mv.substr(0,1);
     y = mv.substr(1,2);
@@ -124,6 +124,22 @@ void translateMove(string& mv) {
     else    
         xi = chX - 97;
     yi = chY - 49;
+    X = xi;
+    Y = yi;
+}
 
-    cout << "xi is: " << xi << " and yi is: " << yi << endl;
+void playMove(string& who, board& bd, string& mv, pawn& wt, pawn& bk) {
+    int x, y;
+    translateMove(mv, x, y);
+    if (who == "white" || who == "White" || who == "WHITE") {
+        bd.setChar(wt.x, wt.y, ' ');
+        wt.setCoords(x, y);
+        bd.setChar(wt.x, wt.y, 'W');
+    }
+    if (who == "black" || who == "Black" || who == "BLACK") {
+        bd.setChar(bk.x, bk.y, ' ');
+        wt.setCoords(x, y);
+        bd.setChar(bk.x, bk.y, 'B');
+    }
+    cout << "=\n\n";
 }
