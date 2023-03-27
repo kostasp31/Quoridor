@@ -50,8 +50,8 @@ void clrBoard(board brd, pawn& pw, pawn& pb) {
     int D = brd.getDim();
     brd.setChar(0, D/2, 'W');
     brd.setChar(D-1, D/2, 'B');
-    pb.setCoords(D-1, D/2);
     pw.setCoords(0, D/2);
+    pb.setCoords(D-1, D/2);
     cout << "=\n\n";
 }
 
@@ -131,15 +131,23 @@ void translateMove(string& mv, int& X, int& Y) {
 void playMove(string& who, board& bd, string& mv, pawn& wt, pawn& bk) {
     int x, y;
     translateMove(mv, x, y);
+    if (x<0 || x>bd.getDim() || y<0 || y>bd.getDim()) {
+        cout << "? illegal move\n\n";
+        return;
+    }
     if (who == "white" || who == "White" || who == "WHITE") {
         bd.setChar(wt.x, wt.y, ' ');
         wt.setCoords(x, y);
         bd.setChar(wt.x, wt.y, 'W');
+        cout << "=\n\n";
     }
-    if (who == "black" || who == "Black" || who == "BLACK") {
+    else if (who == "black" || who == "Black" || who == "BLACK") {
         bd.setChar(bk.x, bk.y, ' ');
-        wt.setCoords(x, y);
+        bk.setCoords(x, y);
         bd.setChar(bk.x, bk.y, 'B');
+        cout << "=\n\n";
     }
-    cout << "=\n\n";
+    else {
+        cout << "? color not recognized\n\n";
+    }
 }

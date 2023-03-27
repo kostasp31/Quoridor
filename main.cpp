@@ -27,7 +27,7 @@ int main(void) {
         if (word1 == "clear_board") clrBoard(brd, White, Black);
         if (word1 == "walls") setWalls(brd, word2);
         if (word1 == "winner") checkWinner(White, Black, brd.getDim());
-        if (word1 == "playmove") playMove(word2, brd, word3, White, Black);
+        if (word1 == "playmove") {playMove(word2, brd, word3, White, Black); cout << "=\n\n"; brd.printTable();}
         if (word1 == "playwall") continue;
         if (word1 == "genmove") continue;
         if (word1 == "undo") continue;
