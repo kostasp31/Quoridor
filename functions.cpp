@@ -129,6 +129,13 @@ void translateMove(string& mv, int& X, int& Y) {
     Y = yi;
 }
 
+bool checkLegalMove(pawn& pt, int& x, int& y) {
+    if ((x==pt.x+1 && y==pt.y) || (x==pt.x-1 && y==pt.y) || (x==pt.x && y==pt.y+1) || (x==pt.x && y==pt.y-1))
+        return true;
+    else
+        return false;
+}
+
 void playMove(string& who, board& bd, string& mv, pawn& wt, pawn& bk) {
     int x, y;
     translateMove(mv, x, y);
@@ -141,18 +148,20 @@ void playMove(string& who, board& bd, string& mv, pawn& wt, pawn& bk) {
         return;
     }
     if (who == "white" || who == "White" || who == "WHITE") {
+        if (!checkLegalMove(wt, x, y)) {
+            cout << "? illegal move\n\n";
+            return;
+        }
         bd.setChar(wt.x, wt.y, ' ');
-        //
-        //cout << "x is: " << wt.x << " and y: " << wt.y;
-        //
         wt.setCoords(x, y);
         bd.setChar(wt.x, wt.y, 'W');
         cout << "=\n\n";
-        //
-        //cout << "x became: " << wt.x << " and y: " << wt.y;
-        //
     }
     else if (who == "black" || who == "Black" || who == "BLACK") {
+        if (!checkLegalMove(bk, x, y)) {
+            cout << "? illegal move\n\n";
+            return;
+        }
         bd.setChar(bk.x, bk.y, ' ');
         bk.setCoords(x, y);
         bd.setChar(bk.x, bk.y, 'B');
