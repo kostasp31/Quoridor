@@ -8,6 +8,7 @@ using namespace std;
 int main(void) {
     string comm;
     string word1, word2, word3, word4;
+    string def_dim = "7", def_walls = "10";
     set<string> commands;
     setCommands(commands);
 
@@ -27,6 +28,7 @@ int main(void) {
         if (word1 == "clear_board") clrBoard(brd, White, Black);
         if (word1 == "walls") setWalls(brd, word2);
         if (word1 == "winner") checkWinner(White, Black, brd.getDim());
+        if (word1 == "setup") {setBoard(def_dim, brd); clrBoard(brd, White, Black); setWalls(brd, def_walls); brd.printTable(); cout << "=\n\n";}
         if (word1 == "playmove") {playMove(word2, brd, word3, White, Black); cout << "=\n\n"; brd.printTable();}
         if (word1 == "playwall") continue;
         if (word1 == "genmove") continue;

@@ -10,6 +10,7 @@ void setCommands(set<string>& st) {
     st.insert("name");
     st.insert("known_command");
     st.insert("list_commands");
+    st.insert("setup");
     st.insert("quit");
     st.insert("boardsize");
     st.insert("clear_board");
@@ -131,15 +132,25 @@ void translateMove(string& mv, int& X, int& Y) {
 void playMove(string& who, board& bd, string& mv, pawn& wt, pawn& bk) {
     int x, y;
     translateMove(mv, x, y);
+    if (bd.getChar(x,y) != ' ') {
+        cout << "? illegal move; pawn already there\n\n";
+        return;
+    }
     if (x<0 || x>bd.getDim() || y<0 || y>bd.getDim()) {
         cout << "? illegal move\n\n";
         return;
     }
     if (who == "white" || who == "White" || who == "WHITE") {
         bd.setChar(wt.x, wt.y, ' ');
+        //
+        //cout << "x is: " << wt.x << " and y: " << wt.y;
+        //
         wt.setCoords(x, y);
         bd.setChar(wt.x, wt.y, 'W');
         cout << "=\n\n";
+        //
+        //cout << "x became: " << wt.x << " and y: " << wt.y;
+        //
     }
     else if (who == "black" || who == "Black" || who == "BLACK") {
         bd.setChar(bk.x, bk.y, ' ');

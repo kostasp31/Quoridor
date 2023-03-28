@@ -98,6 +98,13 @@ class board {
             return;
         }
 
+        char getChar(int xi, int yi) {
+            int row, col;
+            row = (xi*2)+1;
+            col = (yi*4)+2;
+            return this->table[row][col];
+        }
+
         void printTable(void)const {
             char ch = 'A';
             int no = 1;
