@@ -150,6 +150,10 @@ bool checkIfOutOfRange(int& x, int& y, int dimension) {
         return false;
 }
 
+void setWall(int x, int y, direction dir) {
+
+}
+
 void playMove(string& who, board& bd, string& mv, pawn& wt, pawn& bk) {
     int x, y;
     translateMove(mv, x, y);
@@ -188,4 +192,27 @@ void playMove(string& who, board& bd, string& mv, pawn& wt, pawn& bk) {
     else {
         cout << "? color not recognized\n\n";
     }
+}
+
+void playWall(string& who, string& w2, string& w3, board& brd) {
+    int x, y;
+    translateMove(w2, x, y);
+
+    if (who == "white" || who == "White" || who == "WHITE") {
+        if (brd.getWalls(W) <= 0) {
+            cout << "? not enouph walls\n\n";
+            return;
+        }
+        brd-(W);
+    }
+    else if (who == "black" || who == "Black" || who == "BLACK") {
+        if (brd.getWalls(B) <= 0) {
+            cout << "? not enouph walls\n\n";
+            return;
+        }
+        brd-(B);
+    }
+    else
+        cout << "? color not recognized\n\n";
+
 }

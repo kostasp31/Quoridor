@@ -1,6 +1,7 @@
 #pragma once
 
 enum color {W, B};
+enum direction {h, v};
 
 using namespace std;
 class pawn {
@@ -143,6 +144,13 @@ class board {
             if (clc == B)
                 return this->Bwalls;
         }
+
+        void operator-(color c) {
+            if (c == W)
+                Wwalls--;
+            else if (c == B)
+                Bwalls--;
+        }
 };
 
 
@@ -159,4 +167,5 @@ void checkWinner(pawn& p1, pawn& p2, int dim);
 void translateMove(string& mv);
 void showHis(deque<string>& dq);
 
+void playWall(string& who, string& w2, string& w3, board& brd);
 void playMove(string& who, board& bd, string& mv, pawn& wt, pawn& bk);

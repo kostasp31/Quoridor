@@ -33,7 +33,7 @@ int main(void) {
         if (word1 == "setup") {setBoard(def_dim, brd); clrBoard(brd, White, Black); setWalls(brd, def_walls); brd.printTable(); cout << "=\n\n";}
         if (word1 == "show_history") showHis(history);
         if (word1 == "playmove") {playMove(word2, brd, word3, White, Black); cout << "=\n\n"; brd.printTable();}
-        if (word1 == "playwall") continue;
+        if (word1 == "playwall") playWall(word2, word3, word4, brd);
         if (word1 == "genmove") continue;
         if (word1 == "undo") continue;
         history.push_front(comm);
