@@ -21,6 +21,7 @@ void setCommands(set<string>& st) {
     st.insert("undo");
     st.insert("winner");
     st.insert("showboard");
+    st.insert("show_history");
 }
 
 void printCommands(const set<string>& commands) {
@@ -82,6 +83,12 @@ void getTokens(const string& initial_comm, string& w1, string& w2, string& w3, s
     }
 }
 
+void showHis(deque<string>& dq) {
+    cout << "=\n\n";
+    for (auto i: dq)
+        cout << i << endl;
+}
+
 void setBoard(string& sizeS, board& bd) {
     int dim = stoi(sizeS);
     if (dim%2==0 || dim <5 || dim > 21) {
@@ -136,9 +143,20 @@ bool checkLegalMove(pawn& pt, int& x, int& y) {
         return false;
 }
 
+bool checkIfOutOfRange(int& x, int& y, int dimension) {
+    if (x<0 || y<0 || x>= dimension || y>= dimension)
+        return true;
+    else    
+        return false;
+}
+
 void playMove(string& who, board& bd, string& mv, pawn& wt, pawn& bk) {
     int x, y;
     translateMove(mv, x, y);
+    if (checkIfOutOfRange(x, y, bd.getDim())) {
+        cout << "? not a valid table position\n\n";
+        return;
+    }
     if (bd.getChar(x,y) != ' ') {
         cout << "? illegal move; pawn already there\n\n";
         return;
