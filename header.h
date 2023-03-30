@@ -106,6 +106,10 @@ class board {
             return this->table[row][col];
         }
 
+        char getCharReal(int xi, int yi) {
+            return this->table[xi][yi];
+        }
+
         void setAnywhere(int xi, int yi, char ch) {
             this->table[xi][yi] = ch;
             return;

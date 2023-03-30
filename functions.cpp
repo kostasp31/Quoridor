@@ -151,10 +151,25 @@ bool checkIfOutOfRange(int& x, int& y, int dimension) {
 }
 
 void setWall(int x, int y, direction dir, board& bd) {
-    int xReal = x*4;
-    int yReal = (y*2)+1;
-    cout << "Placing Wall at: x: " << xReal << " and y: " << yReal << endl;
-    bd.setAnywhere(xReal, yReal, 'H');
+    int xReal, yReal;
+    xReal = (++x)*2;
+    yReal = (++y)*4;
+    if (dir == h) {
+        if (bd.getCharReal(xReal, yReal) != '+' || bd.getCharReal(xReal, yReal-1) != '-' || bd.getCharReal(xReal, yReal+1) != '-') {
+            cout << "? Wall already there\n\n";
+            return;
+        }
+        for (int k=(yReal-3); k<=(yReal+3); k++)
+            bd.setAnywhere(xReal, k, '=');
+    }
+    if (dir == v) {
+        if (bd.getCharReal(xReal, yReal) != '+') {    //check that
+            cout << "? Wall already there\n\n";
+            return;
+        }
+        for (int k=(xReal-1); k<=(xReal+1); k++)
+            bd.setAnywhere(k, yReal, 'H');
+    }
 }
 
 void playMove(string& who, board& bd, string& mv, pawn& wt, pawn& bk) {
@@ -226,4 +241,5 @@ void playWall(string& who, string& w2, string& w3, board& brd) {
     else
         cout << "? color not recognized\n\n";
     setWall(x, y, di, brd);
+    cout << "=\n\n";
 }
