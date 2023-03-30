@@ -99,11 +99,16 @@ class board {
             return;
         }
 
-        char getChar(int xi, int yi) {
+        char getChar(int xi, int yi)const {
             int row, col;
             row = (xi*2)+1;
             col = (yi*4)+2;
             return this->table[row][col];
+        }
+
+        void setAnywhere(int xi, int yi, char ch) {
+            this->table[xi][yi] = ch;
+            return;
         }
 
         void printTable(void)const {

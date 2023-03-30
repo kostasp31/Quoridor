@@ -150,8 +150,11 @@ bool checkIfOutOfRange(int& x, int& y, int dimension) {
         return false;
 }
 
-void setWall(int x, int y, direction dir) {
-
+void setWall(int x, int y, direction dir, board& bd) {
+    int xReal = x*4;
+    int yReal = (y*2)+1;
+    cout << "Placing Wall at: x: " << xReal << " and y: " << yReal << endl;
+    bd.setAnywhere(xReal, yReal, 'H');
 }
 
 void playMove(string& who, board& bd, string& mv, pawn& wt, pawn& bk) {
@@ -196,8 +199,16 @@ void playMove(string& who, board& bd, string& mv, pawn& wt, pawn& bk) {
 
 void playWall(string& who, string& w2, string& w3, board& brd) {
     int x, y;
+    direction di;
+    if ((w3 == "vertical") || (w3 == "Vertical") || (w3 == "VERTICAL"))
+        di = v;
+    else if ((w3 == "horizontal") || (w3 == "Horizontal") || (w3 == "HORIZONTAL"))
+        di = h;
+    else {
+        cout << "? only horizontal\\vertical direction acceptable\n\n";
+        return;
+    }
     translateMove(w2, x, y);
-
     if (who == "white" || who == "White" || who == "WHITE") {
         if (brd.getWalls(W) <= 0) {
             cout << "? not enouph walls\n\n";
@@ -214,5 +225,5 @@ void playWall(string& who, string& w2, string& w3, board& brd) {
     }
     else
         cout << "? color not recognized\n\n";
-
+    setWall(x, y, di, brd);
 }
