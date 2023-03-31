@@ -1,12 +1,28 @@
-+---+---+---+---+
-|   |   |   |   |
-+---+---+---+---+
-|   |   |   |   |
-+---+---+---+---+
-|   |   |   |   |
-+---+---+---+---+
-|   |   |   |   |
-+---+---+---+---+
+      1   2   3   4   5   6   7
+    +---+---+---+---+---+---+---+
+ A  |   H   |   |   |   |   |   |
+    +---H---+---+---+---+=======+
+ B  |   H   |   |   |   |   |   |
+    +---+---+---+---+---+---+---+
+ C  |   |   |   |   |   |   H   |
+    +---+=======+---+---+---H---+
+ D  |   |   |   |   |   |   H   |
+    +---+---+---+---+---+---+---+
+ E  |   |   H   |   |   |   |   |
+    +---+---H---+---+---+---+---+
+ F  |   |   H   |   |   |   |   |
+    +---+---+---+---+---+---+---+
+ G  |   |   |   |   |   |   |   |
+    +---+---+---+---+=======+---+
 
 rows = (4*dim)+1;
 columns = (2*dim)+1;
+
+playwall white c2 horizontal
+playwall white e2 vertical
+playwall white g5 horizontal
+playwall white a1 vertical
+playwall white a6 horizontal
+playwall white f2 vertical //illegal
+playwall white g4 horizontal //illegal
+playwall white c6 vertical 

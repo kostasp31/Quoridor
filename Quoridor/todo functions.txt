@@ -5,6 +5,7 @@
     output 	none
     fails 	syntax error, illegal move. In the latter case, fails with the error message "illegal move".
     comments 	Consecutive moves of the same color are not considered illegal from the protocol point of view.
+    OK
     
 
     playwall
@@ -14,7 +15,7 @@
     output 	none
     fails 	syntax error, illegal placement. In the latter case, fails with the error message "illegal move".
     comments 	Consecutive moves of the same color are not considered illegal from the protocol point of view.
-    
+    OK
 
     genmove
     arguments 	player
