@@ -150,26 +150,27 @@ bool checkIfOutOfRange(int& x, int& y, int dimension) {
         return false;
 }
 
-void setWall(int x, int y, direction dir, board& bd) {
+bool setWall(int x, int y, direction dir, board& bd) {
     int xReal, yReal;
     xReal = (++x)*2;
     yReal = (++y)*4;
     if (dir == h) {
         if (bd.getCharReal(xReal, yReal) != '+' || bd.getCharReal(xReal, yReal-1) != '-' || bd.getCharReal(xReal, yReal+1) != '-') {
             cout << "? Wall already there\n\n";
-            return;
+            return false;
         }
         for (int k=(yReal-3); k<=(yReal+3); k++)
             bd.setAnywhere(xReal, k, '=');
     }
     if (dir == v) {
-        if (bd.getCharReal(xReal, yReal) != '+') {    //check that
+        if (bd.getCharReal(xReal, yReal) != '+' || bd.getCharReal(xReal-1, yReal) != '|' || bd.getCharReal(xReal+1, yReal) != '|') {    //check that
             cout << "? Wall already there\n\n";
-            return;
+            return false;
         }
         for (int k=(xReal-1); k<=(xReal+1); k++)
             bd.setAnywhere(k, yReal, 'H');
     }
+    return true;
 }
 
 void playMove(string& who, board& bd, string& mv, pawn& wt, pawn& bk) {
@@ -224,22 +225,33 @@ void playWall(string& who, string& w2, string& w3, board& brd) {
         return;
     }
     translateMove(w2, x, y);
+    if ((di == h && x == brd.getDim()-1) || (di == v && y == brd.getDim()-1)) {
+        cout << "? Can\'t place walls at boards\' edges\n\n";
+        return;
+    }
     if (who == "white" || who == "White" || who == "WHITE") {
         if (brd.getWalls(W) <= 0) {
             cout << "? not enouph walls\n\n";
             return;
         }
-        brd-(W);
+        if (!setWall(x, y, di, brd))
+            return;
+        else
+            brd-(W);
     }
     else if (who == "black" || who == "Black" || who == "BLACK") {
         if (brd.getWalls(B) <= 0) {
             cout << "? not enouph walls\n\n";
             return;
         }
-        brd-(B);
+        if (!setWall(x, y, di, brd))
+            return;
+        else    
+            brd-(B);
     }
-    else
+    else {
         cout << "? color not recognized\n\n";
-    setWall(x, y, di, brd);
+        return;
+    }
     cout << "=\n\n";
 }
