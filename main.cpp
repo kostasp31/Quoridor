@@ -36,7 +36,7 @@ int main(void) {
         if (word1 == "playwall") playWall(word2, word3, word4, brd);
         if (word1 == "genmove") continue;
         if (word1 == "undo") continue;
-        history.push_front(comm);
+        if (exists(commands, word1)) history.push_front(comm);
     } while (comm != "quit");
 
     brd.delTable();
